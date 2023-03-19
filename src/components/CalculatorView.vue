@@ -1,4 +1,5 @@
 <template>
+  <!-- design link: https://www.figma.com/file/RZ1xtgdFBTI0a0p8kKr6l3/Calculator-Task?node-id=0-1&t=NHuZaHipz0ncz5vC-0 -->
   <div class="calculator-view">
     <CalculatorResult :result="displayValue" />
 

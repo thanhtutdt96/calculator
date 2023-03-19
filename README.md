@@ -1,31 +1,35 @@
-# Project - _Paper Printing_
+# Project - _Calculator_
 
 Built with Vue 3, Vite, SCSS, Eslint.
 
 ## Running on Local
 ### Development
-- Change the `.env.example` to `.env`
 - Start Vite dev server
 ```
 yarn dev
 ```
+- Open browser with url http://127.0.0.1:5173/
 ### Unit Test
 ```
 yarn test:unit
 ```
+### Linting / Format
+```
+yarn lint
+yarn format
+```
 ## Main Features
 
 The following stories are implemented:
-- [x] User is able to view the prices in a table of "Delivery in business days X Quantity".
-- [x] User is able to select paper size (A4, A5, B5, etc.) and view the respective price table.
-- [x] User can click the cell and select the price for the specified delivery in business days and quantity.
-- [x] User can click "See more" to display more rows.
-- [x] User can hover over price and check respective delivery in business days and quantity.
-- [x] The prices are displayed in numbers formatted by adding a comma "," after every 3 digits of numbers + Unit test.
+- [x] Calculator UI: result view, formula view and buttons.
+- [x] Calculator composable to handle all of the calculations logic.
+- [x] Use Jest/vue-test-utils to handle test cases which coverage almost compulsory cases.
+- [x] Code linting and beautify with Eslint and Prettier
+- [x] Pre-commit code linting & test case verifying with husky
 
 ## License
 
-    Copyright [2022] [Tu Pham]
+    Copyright [2023] [Tu Pham]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

@@ -121,4 +121,25 @@ describe("Calculator", () => {
 
     expect(result.text()).toBe("7");
   });
+
+  test("should able to display exponential result", async () => {
+    await wrapper.get('[data-testid="calculator-button-9"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-9"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-9"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-9"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-9"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-9"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-9"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-x"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-8"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-8"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-8"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-8"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-8"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-8"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-8"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-="]').trigger("click");
+
+    expect(result.text()).toBe("8.8889e+13");
+  });
 });
