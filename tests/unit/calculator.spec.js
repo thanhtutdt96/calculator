@@ -142,4 +142,45 @@ describe("Calculator", () => {
 
     expect(result.text()).toBe("8.8889e+13");
   });
+
+  test("should able toggle the sign of multiple digits number", async () => {
+    await wrapper.get('[data-testid="calculator-button-1"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-2"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-3"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-+/-"]').trigger("click");
+    expect(formula.text()).toBe("-123");
+
+    await wrapper.get('[data-testid="calculator-button-+/-"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-+"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-1"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-2"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-3"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-+/-"]').trigger("click");
+
+    expect(formula.text()).toBe("123 + -123");
+
+    await wrapper.get('[data-testid="calculator-button-+/-"]').trigger("click");
+
+    expect(formula.text()).toBe("123 + 123");
+  });
+
+  test("should able toggle the sign of decimal digits number", async () => {
+    await wrapper.get('[data-testid="calculator-button-."]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-3"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-3"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-+/-"]').trigger("click");
+    expect(formula.text()).toBe("-0.33");
+
+    await wrapper.get('[data-testid="calculator-button-AC"]').trigger("click");
+
+    await wrapper.get('[data-testid="calculator-button-1"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-."]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-5"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-+"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-."]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-5"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-5"]').trigger("click");
+    await wrapper.get('[data-testid="calculator-button-+/-"]').trigger("click");
+    expect(formula.text()).toBe("1.5 + -0.55");
+  });
 });

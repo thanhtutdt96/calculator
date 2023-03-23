@@ -3,7 +3,7 @@
   <div class="calculator-view">
     <CalculatorResult :result="displayValue" />
 
-    <CalculatorFormula :formula="formula" class="mt-lg" />
+    <CalculatorFormula :formula="displayFormula" class="mt-lg" />
 
     <CalculatorButtons
       class="mt-xl pt-lg"
@@ -23,7 +23,7 @@ import CalculatorResult from "components/common/CalculatorResult.vue";
 
 const {
   displayValue,
-  formula,
+  displayFormula,
   handleAppendFormula,
   handleCalculate,
   handleKeyboardInput,

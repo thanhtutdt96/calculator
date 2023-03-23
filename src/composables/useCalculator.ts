@@ -1,4 +1,4 @@
-import { findLast } from "lodash-es";
+import { dropRight, findLast } from "lodash-es";
 import { computed, ref } from "vue";
 import { CalculatorButtonAttribute, CalculatorButtonType } from "types/Calculator";
 
@@ -30,12 +30,21 @@ export default function useCalculator() {
     ),
   );
 
+  const displayFormula = computed(() => formula.value.replaceAll("*", "x"));
+
   const lastDigit = computed(
     () =>
       findLast(formulaData.value, ({ type }) => type === CalculatorButtonType.NUMBER) as
         | FormulaLastDigit
         | undefined,
   );
+
+  const lastNumber = computed(() => {
+    const pattern = /-?\d*\.?\d+(?:\.\d+)?(?=\D*$)/;
+    const result = formula.value?.match(pattern)?.[0];
+
+    return +(result ?? 0);
+  });
 
   const lastOperator = computed(
     () =>
@@ -82,8 +91,12 @@ export default function useCalculator() {
       return;
     }
 
-    // if the first operand is operator => add 0 as first operand
-    if (!formula.value.length && type !== CalculatorButtonType.NUMBER) {
+    if (
+      // if the first operand is operator => add 0 as first operand
+      (!formula.value.length && type !== CalculatorButtonType.NUMBER) ||
+      // if the operand is decimal number like .25 => add 0 preceed: 0.25
+      (value === "." && lastFormulaData.value?.type === CalculatorButtonType.OPERATOR)
+    ) {
       formulaData.value.push({ type: CalculatorButtonType.NUMBER, value: 0 });
     }
 
@@ -97,16 +110,21 @@ export default function useCalculator() {
     }
 
     if (type === CalculatorButtonType.TOGGLE_SIGN) {
-      // store last digit to identify if it is number or operator
-      // case number: splice the last digit to replace it with negative one
-      // case operator: push the stored last digit with negative sign
-      const currentLastDigit = lastDigit.value?.value || 0;
+      // store last number to identify if it is number or operator
+      // case number: splice the last number to replace it with negative one
+      // case operator: push the stored last number with negative sign
+      const currentLastNumber = lastNumber.value;
 
       if (lastFormulaData.value?.type === CalculatorButtonType.NUMBER) {
-        formulaData.value.splice(-1);
+        const numberOfDrop =
+          (lastDigit.value?.value?.toString()?.length ?? 0) > 1
+            ? 1
+            : lastNumber.value.toString().length;
+
+        formulaData.value = dropRight(formulaData.value, numberOfDrop);
       }
 
-      formulaData.value.push({ type: CalculatorButtonType.NUMBER, value: -1 * currentLastDigit });
+      formulaData.value.push({ type: CalculatorButtonType.NUMBER, value: -1 * currentLastNumber });
 
       return;
     }
@@ -136,7 +154,7 @@ export default function useCalculator() {
       } else {
         formulaData.value.push({
           type: CalculatorButtonType.NUMBER,
-          value: lastDigit.value?.value || 0,
+          value: lastNumber.value,
         });
       }
     }
@@ -149,7 +167,10 @@ export default function useCalculator() {
     formulaData,
     displayValue,
     calculatedResult,
+    lastNumber,
+    lastDigit,
     formula,
+    displayFormula,
     handleAppendFormula,
     handleCalculate,
     handleKeyboardInput,
